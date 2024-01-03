@@ -1,0 +1,19 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      maxRequestSize : 10MB
+    encoding:
+      charset: UTF-8
+      force-response: true
+
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha
+    operations-sorter : alpha
+    doc-expansion : none
+
