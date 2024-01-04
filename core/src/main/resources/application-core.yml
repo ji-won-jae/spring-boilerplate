@@ -1,8 +1,10 @@
 #common
 spring:
-  include: common
+  profiles:
+    include: common
 
   jpa:
+   database-platform: org.hibernate.dialect.H2Dialect
    hibernate:
      ddl-auto: update
      use-new-id-generator-mappings: false
@@ -22,7 +24,7 @@ spring:
       on-profile: local
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:~/test
+    url: jdbc:h2:tcp://localhost/~/jpa
     username: sa
     password:
 
@@ -33,7 +35,7 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:~/test
+    url: jdbc:h2:tcp://localhost/~/jpa
     username: sa
     password:
 
@@ -44,7 +46,7 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:~/test
+    url: jdbc:h2:tcp://localhost/~/jpa
     username: sa
     password:
 

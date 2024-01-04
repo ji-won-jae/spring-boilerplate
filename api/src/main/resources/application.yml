@@ -6,6 +6,10 @@ spring:
     import: application-core.yml
 
 jwt:
+  access:
+    expire-second: 43200
+  refresh:
+    expire-second: 2592000
   secretKey: MDswDQYJKoZIhvcNAQEBBQADKgAwJwIgX7W5hUvtc8sbNAPy286U1noeLcgUZP3ItFU0oU9WkKECAwEAAQ==
 
 servlet:
