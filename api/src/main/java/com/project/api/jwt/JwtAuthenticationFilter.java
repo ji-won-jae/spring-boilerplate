@@ -34,7 +34,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             return;
         }
 
-
         // 2. validateToken 으로 토큰 유효성 검사
         if (token != null && jwtTokenProvider.validateToken(token)) {
 

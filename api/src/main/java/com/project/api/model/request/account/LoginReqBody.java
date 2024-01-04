@@ -1,9 +1,11 @@
-package com.project.api.model.response.account;
+package com.project.api.model.request.account;
 
 import lombok.Data;
 
 @Data
 public class LoginReqBody {
 
-    private String nickname;
+    private String email;
+
+    private String password;
 }

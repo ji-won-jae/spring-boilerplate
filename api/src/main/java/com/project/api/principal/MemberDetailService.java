@@ -1,6 +1,7 @@
 package com.project.api.principal;
 
 import com.project.api.repository.member.MemberRepository;
+import com.project.core.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,11 @@ public class MemberDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         try {
-            return (UserDetails) memberRepository.findById(Long.parseLong(id)).orElseThrow(() -> new UsernameNotFoundException(id));
+            Member member = memberRepository.findById(Long.parseLong(id)).orElseThrow(() -> new UsernameNotFoundException(id));
+            return MemberDetails.builder()
+                    .id(member.getId())
+                    .build();
+
         }catch (NullPointerException e){
             throw new UsernameNotFoundException(null);
         }

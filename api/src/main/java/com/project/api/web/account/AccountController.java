@@ -1,11 +1,16 @@
 package com.project.api.web.account;
 
-import com.project.api.model.response.account.SignUpReqBody;
+import com.project.api.model.request.account.LoginReqBody;
+import com.project.api.model.request.account.RefreshTokenReqBody;
+import com.project.api.model.request.account.SignUpReqBody;
+import com.project.api.model.response.JwtTokenResBody;
 import com.project.api.response.ResponseCode;
 import com.project.api.service.account.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,21 +24,22 @@ public class AccountController {
 
     @Operation(summary = "회원 가입")
     @PostMapping(value = "/sign-up")
-    public ResponseEntity<ResponseCode> signUp(@RequestBody SignUpReqBody reqBody) {
+    public ResponseEntity<JwtTokenResBody> signUp(@Valid @RequestBody SignUpReqBody reqBody) {
 
-        accountService.signUp(reqBody);
-
-        return ResponseEntity.ok(ResponseCode.SUCCESS);
+        return ResponseEntity.ok(accountService.signUp(reqBody));
     }
-
-
 
     @Operation(summary = "로그인")
     @PostMapping(value = "/login")
-    public ResponseEntity<ResponseCode> login(@RequestBody SignUpReqBody reqBody) {
+    public ResponseEntity<JwtTokenResBody> login(@RequestBody LoginReqBody reqBody) {
 
-        accountService.signUp(reqBody);
+        return ResponseEntity.ok(accountService.login(reqBody));
+    }
 
-        return ResponseEntity.ok(ResponseCode.SUCCESS);
+    @Operation(summary = "리프레시 토큰 확인 발급")
+    @PostMapping(value = "/refresh-token")
+    public ResponseEntity<JwtTokenResBody> checkRefreshToken(@RequestBody RefreshTokenReqBody reqBody) throws BadRequestException {
+
+        return ResponseEntity.ok(accountService.checkRefreshToken(reqBody));
     }
 }

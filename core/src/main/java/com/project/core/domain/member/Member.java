@@ -15,9 +15,20 @@ public class Member {
     @Column(nullable = false)
     private String nickname;
 
-    public static Member of(String nickname) {
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column
+    private String refreshToken;
+
+    public static Member of(String nickname,String email,String password) {
         Member member = new Member();
         member.setNickname(nickname);
+        member.setEmail(email);
+        member.setPassword(password);
         return member;
     }
 }
