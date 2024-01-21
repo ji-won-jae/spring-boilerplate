@@ -32,8 +32,20 @@ public class SecurityConfig {
                 .httpBasic(HttpBasicConfigurer::disable)
                 .csrf(CsrfConfigurer::disable)
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(requests -> requests
-                        .anyRequest().permitAll())
+                .authorizeHttpRequests(requests ->
+                        requests.requestMatchers(
+                        "/api-docs/**",
+                        "/v3/api-docs/**",
+                        "/v3/api-docs/swagger-config/**",
+                        "/swagger-ui.html",
+                        "/swagger-resources",
+                        "/swagger-resources/**",
+                        "/configuration/ui",
+                        "/configuration/security",
+                        "/webjars/**",
+                        "/swagger-ui/**").permitAll()
+                        .requestMatchers("/accounts/**").permitAll()
+                                .anyRequest().authenticated())
                 .formLogin(FormLoginConfigurer::disable)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class).build();
     }

@@ -2,6 +2,10 @@
 spring:
   profiles:
     active: local
+    group:
+      local: api-local
+      dev: api-dev
+      prod: api-prod
   config:
     import: application-core.yml
 
@@ -12,25 +16,5 @@ jwt:
     expire-second: 2592000
   secretKey: MDswDQYJKoZIhvcNAQEBBQADKgAwJwIgX7W5hUvtc8sbNAPy286U1noeLcgUZP3ItFU0oU9WkKECAwEAAQ==
 
-servlet:
-   multipart:
-    max-file-size: 10MB
-
---- # local
-spring:
-  config:
-    activate:
-      on-profile: local
 
 
---- # dev
-spring:
-  config:
-    activate:
-      on-profile: dev
-
---- # prod
-spring:
-  config:
-    activate:
-      on-profile: prod

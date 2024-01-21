@@ -44,7 +44,7 @@ public class AccountServiceImpl implements AccountService {
 
         return JwtTokenResBody.builder()
                 .accessToken(accessToken)
-                .accessToken(refreshToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 

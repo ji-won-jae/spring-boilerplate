@@ -2,6 +2,7 @@ package com.project.api.web.member;
 
 import com.project.api.principal.MemberDetails;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
 
-    @Operation(summary = "내 정보")
+    @Operation(summary = "내 정보",description = "내 정보 불러오기")
+    @ApiResponse(responseCode = "200", description = "success")
+    @ApiResponse(responseCode = "400", description = "fail")
     @GetMapping
     public ResponseEntity<Object> getMe(Authentication authentication) {
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
