@@ -38,7 +38,7 @@ public class AccountController {
 
     @Operation(summary = "리프레시 토큰 확인 발급")
     @PostMapping(value = "/refresh-token")
-    public ResponseEntity<JwtTokenResBody> checkRefreshToken(@Valid @RequestBody RefreshTokenReqBody reqBody) throws BadRequestException {
+    public ResponseEntity<JwtTokenResBody> checkRefreshToken(@Valid @RequestBody RefreshTokenReqBody reqBody) {
 
         return ResponseEntity.ok(accountService.checkRefreshToken(reqBody));
     }

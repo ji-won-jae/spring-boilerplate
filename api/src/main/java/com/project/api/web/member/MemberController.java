@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +25,8 @@ public class MemberController {
     @ApiResponse(responseCode = "200", description = "success")
     @ApiResponse(responseCode = "400", description = "fail")
     @GetMapping
-    public ResponseEntity<Object> getMe(Authentication authentication) {
-        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(memberDetails);
+    public ResponseEntity<Object> getMe(@AuthenticationPrincipal MemberDetails details) {
+
+        return ResponseEntity.ok(details);
     }
 }

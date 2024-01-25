@@ -1,14 +1,12 @@
 package com.project.api.jwt;
 
 
-import com.project.api.model.response.JwtTokenResBody;
+import com.project.api.exception.BadRequestException;
 import com.project.api.principal.MemberDetailService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -82,7 +80,7 @@ public class JwtTokenProvider {
         }
     }
 
-    public boolean validateToken(String token) throws BadRequestException {
+    public boolean validateToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
 
@@ -98,7 +96,7 @@ public class JwtTokenProvider {
         }
     }
 
-    public Authentication getAuthentication(String jwt) throws BadRequestException {
+    public Authentication getAuthentication(String jwt) {
 
         String memberId = getClaims(jwt).getSubject();
 

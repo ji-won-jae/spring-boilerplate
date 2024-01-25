@@ -11,5 +11,5 @@ public interface AccountService {
 
     JwtTokenResBody login(LoginReqBody reqBody);
 
-    JwtTokenResBody checkRefreshToken(RefreshTokenReqBody reqBody) throws BadRequestException;
+    JwtTokenResBody checkRefreshToken(RefreshTokenReqBody reqBody);
 }

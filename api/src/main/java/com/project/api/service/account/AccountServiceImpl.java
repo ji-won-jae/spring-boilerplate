@@ -1,21 +1,20 @@
 package com.project.api.service.account;
 
+import com.project.api.exception.NotFoundException;
 import com.project.api.jwt.JwtTokenProvider;
 import com.project.api.model.request.account.LoginReqBody;
 import com.project.api.model.request.account.RefreshTokenReqBody;
 import com.project.api.model.request.account.SignUpReqBody;
 import com.project.api.model.response.JwtTokenResBody;
-import com.project.api.principal.MemberDetails;
+
 import com.project.api.repository.member.MemberRepository;
 import com.project.core.domain.member.Member;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.webjars.NotFoundException;
 
 import java.util.Optional;
 
@@ -40,8 +39,6 @@ public class AccountServiceImpl implements AccountService {
 
         String refreshToken = jwtTokenProvider.createRefreshJwt(accessToken);
 
-        member.setRefreshToken(refreshToken);
-
         return JwtTokenResBody.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -61,8 +58,6 @@ public class AccountServiceImpl implements AccountService {
 
         String refreshToken = jwtTokenProvider.createRefreshJwt(accessToken);
 
-        member.setRefreshToken(refreshToken);
-
         return JwtTokenResBody.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -71,7 +66,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public JwtTokenResBody checkRefreshToken(RefreshTokenReqBody reqBody) throws BadRequestException {
+    public JwtTokenResBody checkRefreshToken(RefreshTokenReqBody reqBody){
 
         if (jwtTokenProvider.validateToken(reqBody.getRefreshToken())) {
             Claims claims = jwtTokenProvider.getClaims(reqBody.getRefreshToken());
