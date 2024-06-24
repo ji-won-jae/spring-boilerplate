@@ -1,15 +1,14 @@
-package com.project.api.jwt;
+package com.project.api.config.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.project.api.response.TokenResponse;
+import com.project.api.model.common.ErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Data;
 import org.springframework.http.MediaType;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -29,7 +28,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
             //토큰의 유효기간 만료
             setErrorResponse(response, 401, "토큰이 만료되었습니다.");
         } catch (JwtException |
-                 IllegalArgumentException e ) {
+                 IllegalArgumentException e) {
             //유효하지 않은 토큰
             setErrorResponse(response, 403, "권한 정보가 없는 토큰입니다.");
         }
@@ -40,13 +39,12 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
             int code, String message
     ) {
         ObjectMapper objectMapper = new ObjectMapper();
-        response.setStatus(code);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        TokenResponse<Object> errorResponse =  TokenResponse.fail(code, message);
         try {
-            response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+            response.setStatus(code);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.getWriter().write(objectMapper.writeValueAsString(new ErrorResponse(code, message)));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

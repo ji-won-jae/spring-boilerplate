@@ -1,7 +1,7 @@
-package com.project.api.config.security;
+package com.project.api.config.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.api.exception.ErrorResponse;
+import com.project.api.model.common.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +27,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         log.debug("filterChain");
         String exception = (String) request.getAttribute("UnauthorizedException");
 
-        ErrorResponse of = ErrorResponse.of(403, exception);
-
-        response.getWriter().write(objectMapper.writeValueAsString(of));
+        response.getWriter().write(objectMapper.writeValueAsString(new ErrorResponse(403, exception)));
         log.error("exception {} {} {}", exception, request.getRequestURI(), request.getRemoteHost());
     }
 }

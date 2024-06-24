@@ -1,5 +1,6 @@
 package com.project.api.exception;
 
+import com.project.api.model.common.ResponseCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,8 @@ import lombok.Setter;
 @Setter
 public class BadRequestException extends RuntimeException {
 
+    ResponseCode ERROR_CODE;
+
     public BadRequestException() {
         super("잘못된 요청입니다.");
     }
@@ -20,5 +23,8 @@ public class BadRequestException extends RuntimeException {
         super(message);
     }
 
-
+    public BadRequestException(String message, ResponseCode responseErrorCode) {
+        super(message);
+        this.ERROR_CODE = responseErrorCode;
+    }
 }

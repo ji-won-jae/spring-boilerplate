@@ -1,4 +1,4 @@
-package com.project.api.jwt;
+package com.project.api.config.security.jwt;
 
 
 import com.project.api.exception.BadRequestException;

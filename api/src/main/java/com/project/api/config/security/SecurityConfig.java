@@ -1,8 +1,9 @@
 package com.project.api.config.security;
 
-import com.project.api.jwt.ExceptionHandlerFilter;
-import com.project.api.jwt.JwtAuthenticationFilter;
-import com.project.api.jwt.JwtTokenProvider;
+import com.project.api.config.security.jwt.ExceptionHandlerFilter;
+import com.project.api.config.security.jwt.JwtAuthenticationEntryPoint;
+import com.project.api.config.security.jwt.JwtAuthenticationFilter;
+import com.project.api.config.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
