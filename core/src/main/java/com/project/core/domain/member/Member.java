@@ -1,15 +1,18 @@
 package com.project.core.domain.member;
 
+import com.project.core.domain.base.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Entity
-@Data
-public class Member {
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "member_id")
     private Long id;
 
     @Column(nullable = false)
@@ -21,10 +24,7 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
-    @Column
-    private String refreshToken;
-
-    public static Member of(String nickname,String email,String password) {
+    public static Member of(String nickname, String email, String password) {
         Member member = new Member();
         member.setNickname(nickname);
         member.setEmail(email);
