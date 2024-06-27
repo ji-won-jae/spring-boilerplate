@@ -1,7 +1,7 @@
 package com.project.api.config.security.jwt;
 
 
-import com.project.api.exception.BadRequestException;
+import com.project.api.exception.UnAuthorizedException;
 import com.project.api.principal.MemberDetailService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -92,7 +92,7 @@ public class JwtTokenProvider {
             }
             return false;
         } catch (Exception e) {
-            throw new BadRequestException("토큰이 유효하지 않습니다.");
+            throw new UnAuthorizedException("토큰이 유효하지 않습니다.");
         }
     }
 
@@ -101,7 +101,7 @@ public class JwtTokenProvider {
         String memberId = getClaims(jwt).getSubject();
 
         if (key == null) {
-            throw new BadRequestException("등록되지 않은 토큰입니다.");
+            throw new UnAuthorizedException("등록되지 않은 토큰입니다.");
         }
 
         HashSet<GrantedAuthority> authorities = new HashSet<>();
