@@ -50,9 +50,9 @@ public class SecurityConfig {
             "/js/**",
             "/webjars/**",
 
-            "/accounts/login",
-            "/accounts/refresh-token",
-            "/accounts/sign-up",
+            "/api/v1/accounts/login",
+            "/api/v1/accounts/reissue-token",
+            "/api/v1/accounts/sign-up",
     };
 
     @Bean

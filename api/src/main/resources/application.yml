@@ -16,5 +16,14 @@ jwt:
     expire-second: 2592000
   secretKey: MDswDQYJKoZIhvcNAQEBBQADKgAwJwIgX7W5hUvtc8sbNAPy286U1noeLcgUZP3ItFU0oU9WkKECAwEAAQ==
 
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true # Register P6LogFactory to log JDBC events
+      multiline: true # Use com.p6spy.engine.spy.appender.MultiLineFormat instead of com.p6spy.engine.spy.appender.SingleLineFormat
+      logging: slf4j  # Use logging for default listeners [slf4j, sysout, file, custom]
+      log-file: spy.log # Log file to use (only with logging=file)
+
+
 
 

@@ -1,4 +1,4 @@
-package com.project.api.config.common.format;
+package com.project.api.config.format;
 
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.format.DateTimeFormatter;
 
 
-//LocalDateTIme 공통 포맷 적용
+/** LocalDateTIme 공통 포맷 적용 */
 @Configuration
 public class DateTimeConfig {
     private static final String dateFormat = "yyyy-MM-dd";
