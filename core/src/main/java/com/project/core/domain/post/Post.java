@@ -37,5 +37,9 @@ public class Post extends BaseTimeEntity {
     @Column
     private Integer viewCount;
 
-
+    //조회수 초기 값 생성
+    @PrePersist
+    public void prePersist() {
+        this.viewCount = this.viewCount == null ? 0 : this.viewCount;
+    }
 }
