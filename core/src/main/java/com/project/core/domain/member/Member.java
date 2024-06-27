@@ -21,8 +21,14 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String email;
 
+    @Column(length = 2000)
+    private String content;
+
     @Column(nullable = false)
     private String password;
+
+    @Column
+    private String refreshToken;
 
     public static Member of(String nickname, String email, String password) {
         Member member = new Member();
@@ -30,5 +36,18 @@ public class Member extends BaseTimeEntity {
         member.setEmail(email);
         member.setPassword(password);
         return member;
+    }
+
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    public void updateMyProfile(String content, String nickname) {
+        this.content = content;
+        this.nickname = nickname;
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }
