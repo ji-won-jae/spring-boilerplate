@@ -11,7 +11,7 @@ import java.util.HashSet;
 
 @Data
 @Builder
-public class MemberDetails implements UserDetails {
+public class Account implements UserDetails {
 
     private Long id;
 

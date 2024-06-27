@@ -21,12 +21,12 @@ public class MemberDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         try {
             Member member = memberRepository.findById(Long.parseLong(id)).orElseThrow(() -> new UsernameNotFoundException(id));
-            return MemberDetails.builder()
+            return Account.builder()
                     .id(member.getId())
                     .build();
 
-        }catch (NullPointerException e){
-            throw new UsernameNotFoundException(null);
+        } catch (NullPointerException e) {
+            throw new UsernameNotFoundException(e.getMessage());
         }
     }
 }
