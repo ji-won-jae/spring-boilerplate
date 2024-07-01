@@ -15,18 +15,18 @@ public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
+    @Column
     private Long id;
 
     @Column(length = 1000)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", updatable = false)
+    @JoinColumn(name = "member_id", referencedColumnName = "id", updatable = false)
     private Member writer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", updatable = false)
+    @JoinColumn(name = "post_id", referencedColumnName = "id", updatable = false)
     private Post post;
 
 }
