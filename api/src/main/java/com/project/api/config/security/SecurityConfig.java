@@ -49,6 +49,7 @@ public class SecurityConfig {
             "/images/**",
             "/js/**",
             "/webjars/**",
+            "/health/**",
 
             "/api/v1/accounts/login",
             "/api/v1/accounts/reissue-token",
