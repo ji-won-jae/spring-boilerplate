@@ -1,5 +1,6 @@
 package com.project.api.principal;
 
+import com.project.api.exception.NotFoundException;
 import com.project.api.repository.member.MemberRepository;
 import com.project.core.domain.member.Member;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +21,13 @@ public class MemberDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         try {
-            Member member = memberRepository.findById(Long.parseLong(id)).orElseThrow(() -> new UsernameNotFoundException(id));
+            Member member = memberRepository.findById(Long.parseLong(id)).orElseThrow(() -> new NotFoundException(id));
             return Account.builder()
                     .id(member.getId())
                     .build();
 
         } catch (NullPointerException e) {
-            throw new UsernameNotFoundException(e.getMessage());
+            throw new NotFoundException(e.getMessage());
         }
     }
 }
