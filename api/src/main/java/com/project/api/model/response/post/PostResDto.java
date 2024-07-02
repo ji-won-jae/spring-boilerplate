@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 public class PostResDto {
     @Schema(description = "작성자 정보")
     private MemberProfileResDto memberProfile;
+    @Schema(description = "게시글 PK", example = "1")
+    private Long postId;
     @Schema(description = "제목", example = "제목명")
     private String title;
     @Schema(description = "내용", example = "내용")
@@ -32,6 +34,7 @@ public class PostResDto {
     public static QBean<PostResDto> qBean(QPost post, QMember member) {
         return Projections.bean(PostResDto.class,
                 MemberProfileResDto.qBean(member).as("memberProfile"),
+                post.id.as("postId"),
                 post.title.as("title"),
                 post.content.as("content"),
                 post.viewCount.as("viewCount"),
