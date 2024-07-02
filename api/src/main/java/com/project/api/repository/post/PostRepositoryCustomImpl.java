@@ -6,6 +6,7 @@ import com.project.api.model.response.post.PostResDto;
 import com.project.api.principal.Account;
 import com.project.core.domain.member.QMember;
 import com.project.core.domain.post.QPost;
+import com.project.core.domain.post_like.QPostLike;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -20,25 +21,31 @@ import java.util.List;
 
 import static com.project.core.domain.member.QMember.*;
 import static com.project.core.domain.post.QPost.*;
+import static com.project.core.domain.post_like.QPostLike.*;
 
 @RequiredArgsConstructor
 public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public PostResDto getPost(Account account, Long postId) {
+    public PostResDto getPost(Long accountId, Long postId) {
         BooleanBuilder where = new BooleanBuilder();
         where.and(post.id.eq(postId));
 
-        return jpaQueryFactory.select(PostResDto.qBean(post, member))
+        QPostLike myPostLike = new QPostLike("myPostLike");
+
+        return jpaQueryFactory.select(PostResDto.qBean(post, member, postLike, myPostLike))
                 .from(post)
                 .innerJoin(member).on(member.id.eq(post.writer.id))
+                .leftJoin(postLike).on(postLike.post.id.eq(post.id))
+                .leftJoin(myPostLike).on(myPostLike.post.id.eq(post.id).and(myPostLike.member.id.eq(accountId)))
                 .where(where)
+                .groupBy(post.id)
                 .fetchOne();
     }
 
     @Override
-    public Slice<PostListResDto> getPostList(Long id, Long offsetId, Pageable pageable, String keyword, SortType sortType) {
+    public Slice<PostListResDto> getPostList(Long accountId, Long offsetId, Pageable pageable, String keyword, SortType sortType) {
         BooleanBuilder where = new BooleanBuilder();
 
         if (offsetId != null) {
@@ -58,11 +65,16 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 break;
         }
 
-        var list = jpaQueryFactory.select(PostListResDto.qBean(post, member))
+        QPostLike myPostLike = new QPostLike("myPostLike");
+
+        var list = jpaQueryFactory.select(PostListResDto.qBean(post, member, postLike, myPostLike))
                 .from(post)
                 .innerJoin(member).on(member.id.eq(post.writer.id))
+                .leftJoin(postLike).on(postLike.post.id.eq(post.id))
+                .leftJoin(myPostLike).on(myPostLike.post.id.eq(post.id).and(myPostLike.member.id.eq(accountId)))
                 .where(where)
                 .orderBy(orderSpecifier)
+                .groupBy(post.id)
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
 

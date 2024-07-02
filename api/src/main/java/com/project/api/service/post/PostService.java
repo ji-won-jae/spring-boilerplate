@@ -1,6 +1,7 @@
 package com.project.api.service.post;
 
 import com.project.api.exception.BadRequestException;
+import com.project.api.exception.ConflictException;
 import com.project.api.exception.NotFoundException;
 import com.project.api.model.SortType;
 import com.project.api.model.request.post.PostReqDto;
@@ -9,7 +10,9 @@ import com.project.api.model.response.post.PostResDto;
 import com.project.api.principal.Account;
 import com.project.api.repository.member.MemberRepository;
 import com.project.api.repository.post.PostRepository;
+import com.project.api.repository.post_like.PostLikeRepository;
 import com.project.core.domain.post.Post;
+import com.project.core.domain.post_like.PostLike;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +26,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+    private final PostLikeRepository postLikeRepository;
     private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
@@ -62,7 +66,7 @@ public class PostService {
 
     @Transactional
     public PostResDto getPost(Account account, Long postId) {
-        var post = postRepository.getPost(account, postId);
+        var post = postRepository.getPost(account.getId(), postId);
         postRepository.updateViewCount(postId);
 
         return post;
@@ -74,5 +78,25 @@ public class PostService {
         var posts = postRepository.getPostList(account.getId(), offsetId, pageable, keyword, sortType);
 
         return posts;
+    }
+
+    @Transactional
+    public void likePost(Account account, Long postId) {
+        var member = memberRepository.findById(account.getId()).orElseThrow(NotFoundException::new);
+        var post = findById(postId);
+        if (postLikeRepository.existsByMemberIdAndPostId(member.getId(), post.getId())) {
+            throw new ConflictException("이미 처리된 요청입니다.");
+        }
+        postLikeRepository.save(
+                PostLike.of(
+                        member
+                        , post)
+        );
+    }
+
+    @Transactional
+    public void unlikePost(Account account, Long postId) {
+        postLikeRepository.findByMemberIdAndPostId(account.getId(), postId)
+                .ifPresent(postLikeRepository::delete);
     }
 }

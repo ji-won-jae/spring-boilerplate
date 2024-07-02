@@ -55,7 +55,6 @@ public class PostController {
         return ResponseDto.ok(response);
     }
 
-
     @Operation(summary = "게시글 목록 조회", description = "게시글 목록을 조회합니다.")
     @GetMapping
     public ResponseEntity<ResponseDto<Slice<PostListResDto>>> getPostList(@AuthenticationPrincipal Account account
@@ -66,6 +65,22 @@ public class PostController {
         var response = postService.getPostList(account, offsetId, limit, keyword, sortType);
 
         return ResponseDto.ok(response);
+    }
+
+    @Operation(summary = "게시글 좋아요", description = "게시글 좋아요를 합니다.")
+    @PostMapping(value = "/{postId}/like")
+    public ResponseEntity<Void> likePost(@AuthenticationPrincipal Account account, @PathVariable Long postId) {
+        postService.likePost(account, postId);
+
+        return ResponseDto.noContent();
+    }
+
+    @Operation(summary = "게시글 좋아요 취소", description = "게시글 좋아요를 취소합니다.")
+    @DeleteMapping(value = "/{postId}/unlike")
+    public ResponseEntity<Void> unlikePost(@AuthenticationPrincipal Account account, @PathVariable Long postId) {
+        postService.unlikePost(account, postId);
+
+        return ResponseDto.noContent();
     }
 
 }

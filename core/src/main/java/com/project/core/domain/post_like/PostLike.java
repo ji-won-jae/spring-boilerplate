@@ -3,12 +3,12 @@ package com.project.core.domain.post_like;
 import com.project.core.domain.member.Member;
 import com.project.core.domain.post.Post;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostLike {
 
@@ -24,4 +24,11 @@ public class PostLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", referencedColumnName = "id", updatable = false)
     private Member member;
+
+    public static PostLike of(Member member, Post post) {
+        return PostLike.builder()
+                .member(member)
+                .post(post)
+                .build();
+    }
 }
