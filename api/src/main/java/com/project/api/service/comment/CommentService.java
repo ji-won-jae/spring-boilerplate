@@ -73,6 +73,7 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
+    @Transactional(readOnly = true)
     public Page<CommentListResDto> getCommentList(Account account, Long postId, int offset, int size, SortType sortType) {
         var pageable = PageRequest.of(offset, size);
         var commentList = commentRepository.getCommentList(account, postId, pageable, sortType);
